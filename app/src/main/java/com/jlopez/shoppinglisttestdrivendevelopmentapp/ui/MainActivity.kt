@@ -1,7 +1,8 @@
-package com.jlopez.shoppinglisttestdrivendevelopmentapp
+package com.jlopez.shoppinglisttestdrivendevelopmentapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.jlopez.shoppinglisttestdrivendevelopmentapp.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
