@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Gamin/AndroidStudioProjects/ShoppingListTestDrivenDevelopmentApp/app/src/main/res/drawable/ic_image.xml" value="0.15833333333333333" />
+        <entry key="..\:/Users/Gamin/AndroidStudioProjects/ShoppingListTestDrivenDevelopmentApp/app/src/main/res/layout/fragment_add_shopping_item.xml" value="0.10185185185185185" />
+        <entry key="..\:/Users/Gamin/AndroidStudioProjects/ShoppingListTestDrivenDevelopmentApp/app/src/main/res/layout/fragment_image_pick.xml" value="0.325" />
         <entry key="..\:/Users/Gamin/AndroidStudioProjects/ShoppingListTestDrivenDevelopmentApp/app/src/main/res/layout/fragment_shopping.xml" value="0.25" />
+        <entry key="..\:/Users/Gamin/AndroidStudioProjects/ShoppingListTestDrivenDevelopmentApp/app/src/main/res/layout/item_image.xml" value="0.325" />
+        <entry key="..\:/Users/Gamin/AndroidStudioProjects/ShoppingListTestDrivenDevelopmentApp/app/src/main/res/layout/item_shopping.xml" value="0.325" />
       </map>
     </option>
   </component>

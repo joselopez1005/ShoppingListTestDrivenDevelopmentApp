@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.jlopez.shoppinglisttestdrivendevelopmentapp.R
 
-class ShoppingFragment : Fragment(R.layout.fragment_shopping) {
+class AddShoppingItemFragment : Fragment(R.layout.fragment_add_shopping_item) {
 
     lateinit var viewModel: ShoppingViewModel
 

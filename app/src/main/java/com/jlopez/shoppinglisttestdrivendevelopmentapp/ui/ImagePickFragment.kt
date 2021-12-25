@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.jlopez.shoppinglisttestdrivendevelopmentapp.R
 
-class ShoppingFragment : Fragment(R.layout.fragment_shopping) {
+class ImagePickFragment : Fragment(R.layout.fragment_image_pick) {
 
     lateinit var viewModel: ShoppingViewModel
 
@@ -14,4 +14,5 @@ class ShoppingFragment : Fragment(R.layout.fragment_shopping) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity())[ShoppingViewModel::class.java]
     }
+
 }
