@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jlopez.shoppinglisttestdrivendevelopmentapp.Constants
 import com.jlopez.shoppinglisttestdrivendevelopmentapp.Event
 import com.jlopez.shoppinglisttestdrivendevelopmentapp.Resource
 import com.jlopez.shoppinglisttestdrivendevelopmentapp.data.local.ShoppingItem
@@ -14,6 +15,7 @@ import com.jlopez.shoppinglisttestdrivendevelopmentapp.repositories.ShoppingRepo
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,10 +62,40 @@ class ShoppingViewModel @Inject constructor(
     }
 
     fun insertShoppingItem(name: String, amountString: String, priceString: String) {
-
+        if(name.isEmpty() || amountString.isEmpty() || priceString.isEmpty()) {
+            _insertShoppingItemStatus.postValue(Event(Resource.error("The fields must not be empty", null)))
+            return
+        }
+        if(name.length > Constants.MAX_NAME_LENGTH) {
+            _insertShoppingItemStatus.postValue(Event(Resource.error("Name cannot be that long", null)))
+            return
+        }
+        if(priceString.length > Constants.MAX_PRICE_LENGTH) {
+            _insertShoppingItemStatus.postValue(Event(Resource.error("Price cannot be that long", null)))
+            return
+        }
+        val amount = try {
+            amountString.toInt()
+        } catch(e: Exception) {
+            _insertShoppingItemStatus.postValue(Event(Resource.error("Please Enter a valid amount", null)))
+            return
+        }
+        val shoppingItem = ShoppingItem(name, amount, priceString.toFloat(), _curImageUrl.value ?: "")
+        insertShoppingItemIntoDb(shoppingItem)
+        setCurImageUrl("")
+        _insertShoppingItemStatus.postValue(Event(Resource.success(shoppingItem)))
     }
 
     fun searchFOrImage(imageQuery: String) {
-
+        if(imageQuery.isEmpty()) {
+            return
+        }
+        // Value will notify all observer instantly of a change in the data
+        // PostValue will only notify all observers about the last change, good if the data is constanly changing
+        _images.value = Event(Resource.loading(null))
+        viewModelScope.launch {
+            val response = repository.searchForImage(imageQuery)
+            _images.value = Event(response)
+        }
     }
 }
