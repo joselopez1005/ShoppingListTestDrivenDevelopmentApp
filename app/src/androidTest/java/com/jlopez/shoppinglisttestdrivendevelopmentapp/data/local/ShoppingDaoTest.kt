@@ -7,6 +7,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
 import com.jlopez.shoppinglisttestdrivendevelopmentapp.getOrAwaitValue
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -14,7 +16,13 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Inject
+import javax.inject.Named
 
+
+//APPLYING DAGGER-HILT TESTING:
+// When we have a big application with several tests, rather than initiating a database
+// or a dao several times over and over, it is better to let dagger-hilt do it
 //BIG NOTE:
 // When working with LiveData, issues come up with Junit and livedata's condition of
 // being asynchronous. To fix that, we have to tell JUnit that we want all of this
@@ -22,17 +30,23 @@ import org.junit.runner.RunWith
 
 // RunWith - Makes sure all the tests in the class will run in the emulator (instrumented)
 // SmallTest - Telling Junit that we are making unit tests
-@RunWith(AndroidJUnit4::class)
+//@RunWith(AndroidJUnit4::class)
 @SmallTest
 @ExperimentalCoroutinesApi
+@HiltAndroidTest
 class ShoppingDaoTest {
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     // This takes care of the problem. It will make sure every function is run in order
     // asynchronously or not
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var database: ShoppingItemDatabase
+    @Inject
+    @Named("Test_DB")
+    lateinit var database: ShoppingItemDatabase
     private lateinit var dao: ShoppingDao
 
     @Before
@@ -41,10 +55,11 @@ class ShoppingDaoTest {
         // Another note is that we want to allow MainThreadQueries for testing purposes
         // Since if several threads are executing, we won't know which thread is causing
         // The issue
-        database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            ShoppingItemDatabase::class.java
-        ).allowMainThreadQueries().build()
+//        database = Room.inMemoryDatabaseBuilder(
+//            ApplicationProvider.getApplicationContext(),
+//            ShoppingItemDatabase::class.java
+//        ).allowMainThreadQueries().build()
+        hiltRule.inject()
         dao = database.shoppingDao()
     }
 
